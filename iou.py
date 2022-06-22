@@ -30,55 +30,19 @@ def calculate_iou(gt_bbox, pred_bbox):
     """
     ## IMPLEMENT THIS FUNCTION
 
-    # cond1 = (pred_bbox[0] <= gt_bbox[0] <= pred_bbox[2])
-    # cond2 = (pred_bbox[1] <= gt_bbox[1] <= pred_bbox[3])
-    # cond3 = (gt_bbox[0] <= pred_bbox[0] <= gt_bbox[2])
-    # cond4 = (gt_bbox[1] <= pred_bbox[1] <= gt_bbox[3])
-
     xmin = np.max([gt_bbox[0], pred_bbox[0]])
     ymin = np.max([gt_bbox[1], pred_bbox[1]])
     xmax = np.min([gt_bbox[2], pred_bbox[2]])
     ymax = np.min([gt_bbox[3], pred_bbox[3]])
 
-    # cond1 = gt
-
-    # condition  = (cond1 or cond2) and (cond3 or cond4)
-
-    # if condition:
-        # x = np.sort([gt_bbox[0], gt_bbox[2], pred_bbox[0], pred_bbox[2]])
-        # # print(x)
-        # y = np.sort([gt_bbox[1], gt_bbox[3], pred_bbox[1], pred_bbox[3]])
-        # # print(y)
-
     gt_area = (gt_bbox[2]-gt_bbox[0])*(gt_bbox[3]-gt_bbox[1])
-    # print(gt_area)
     pred_area = (pred_bbox[2]-pred_bbox[0])*(pred_bbox[3]-pred_bbox[1])
 
-    # intersection = (x[2]-x[1])*(y[2]-y[1])
     intersection = max(0, xmax-xmin) * max(0, ymax-ymin)
-    # print('intersection =', intersection)
     union = gt_area + pred_area - intersection
-    # print('union = ', union)
 
     iou = intersection/union
 
-    #     # print(gt_bbox, pred_bbox)
-    #     if union != 0 :
-    #         iou = intersection/union
-    #     else:
-    #         iou = 1
-
-    #     if union < intersection:
-    #         print('something is wrong')
-    #         print(gt_bbox, pred_bbox)
-    #         print(x)
-    #         print(y)
-    #         print(intersection)
-    #         print(union)
-    # else: 
-    #     print('no intersection')
-    #     print(gt_bbox, pred_bbox)
-    #     iou = 0
     return iou
 
 
