@@ -16,6 +16,35 @@ def precision_recall(ious, gt_classes, pred_classes):
     - recall [float]
     """
     # IMPLEMENT THIS FUNCTION
+
+    # precision  = (TP/TP+FP)
+    # recall  = (TP/TP+FN)
+    tp = 0
+    fp = 0
+    fn = 0
+    match = []
+
+
+    for gt_idx, gt in enumerate(gt_classes) :
+        for pred_idx, pred in enumerate(pred_classes):
+            if gt == pred and ious[gt_idx, pred_idx]>0.5:
+                tp = tp + 1
+                match.append(gt_idx)
+            elif gt != pred and ious[gt_idx, pred_idx]>0.5:
+                fp = fp + 1
+                match.append(gt_idx)
+
+    # gt_leftout = len(gt_classes) - (tp + fp) #This will be correct here. But it doesn't account for multiple positive predictions
+
+    fn = len(gt_classes) - len(np.unique(match))
+
+
+    precision = tp/(tp+fp)
+    recall = tp/(tp+fn)
+
+    print(f'Precision = {precision}')
+    print(f'Recall = {recall}')
+
     return precision, recall
 
 
