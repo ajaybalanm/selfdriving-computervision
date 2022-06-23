@@ -1,4 +1,6 @@
 from utils import get_data
+from matplotlib import pyplot as plt
+
 
 def viz(ground_truth):
     """
@@ -8,6 +10,9 @@ def viz(ground_truth):
     """
     # IMPLEMENT THIS FUNCTION
 
+    fig, ax = plt.subplots(2,1)
+    plt.show()
+    print('Debug Stop')
 
 if __name__ == "__main__": 
     ground_truth, _ = get_data()
