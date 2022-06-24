@@ -1,6 +1,29 @@
 from utils import get_data
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+from matplotlib.patches import Rectangle
+
+def createRectangle(box,classes):
+
+    x = box[0]
+    y = box[1]
+    # this is the top left. plt.show() has different coordinates (0,0) is bottom left
+    # where as img show() has (0,0) as top left.
+    # so we don't need to convert the coordinates
+
+    width = box[2] - box[0]
+    height = box[3] - box[1]
+    if classes == 1:
+        color = 'g'
+    elif classes == 2:
+        color = 'r'
+
+    rect = Rectangle((y, x), height, height=width, fc='none', ec=color, lw=1)
+
+    return rect
+
+
+
 
 
 def viz(ground_truth):
@@ -10,26 +33,18 @@ def viz(ground_truth):
     - ground_truth [list[dict]]: ground truth data
     """
     # IMPLEMENT THIS FUNCTION
-    images = []
-    for g in ground_truth:
-        print(g['filename'])
-        images.append('./data/images/'+g['filename'])
 
-
-    # fig, ax = plt.subplots(2,1)
-    # plt.show()
-    nrow = 4
-    ncol = 5
-
-
-    _, axs = plt.subplots(nrow, ncol, figsize=(100, 100))
+    fig, axs = plt.subplots(4, 5)
     axs = axs.flatten()
-    for img, ax in zip(images, axs):
-        # img1 = mpimg(img)
-        ax.imshow(mpimg.imread(img))
+    for g, ax in zip(ground_truth, axs):
+        ax.imshow(mpimg.imread('./data/images/' + g['filename']))
+        for box, classes in zip(g['boxes'], g['classes']):
+            rect = createRectangle(box, classes)
+            ax.add_patch(rect)
+        ax.axis('off')
+
     plt.show()
 
-    print('Debug Stop')
 
 if __name__ == "__main__": 
     ground_truth, _ = get_data()
