@@ -48,9 +48,9 @@ def channel_histogram(image_list):
         red = image[:, :, 0]
         green = image[:, :, 1]
         blue = image[:, :, 2]
-        red_list.extend(red.flatten())
-        blue_list.extend(blue.flatten())
-        green_list.extend(green.flatten())
+        red_list.extend(red.flatten().tolist())
+        blue_list.extend(blue.flatten().tolist())
+        green_list.extend(green.flatten().tolist())
 
     plt.figure()
     sns.kdeplot(red_list, color='r')
