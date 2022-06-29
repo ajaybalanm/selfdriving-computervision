@@ -42,6 +42,10 @@ def channel_histogram(image_list):
     green_list = []
     blue_list = []
 
+    red1_list = []
+    green1_list = []
+    blue1_list = []
+
     for image_path in image_list:
         print(f'Processing   {image_path}')
         image = np.array(Image.open(image_path))
@@ -49,13 +53,26 @@ def channel_histogram(image_list):
         green = image[:, :, 1]
         blue = image[:, :, 2]
         red_list.extend(red.flatten().tolist())
+        red1_list.extend(red.flatten())
         blue_list.extend(blue.flatten().tolist())
+        blue1_list.extend(blue.flatten())
         green_list.extend(green.flatten().tolist())
+        green1_list.extend(green.flatten())
 
-    plt.figure()
+    print(f'Comparing Red List = {red_list == red1_list}')
+    print(f'Comparing Blue List = {red_list == blue1_list}')
+    print(f'Comparing Green List = {red_list == green1_list}')
+
+    plt.figure(1)
     sns.kdeplot(red_list, color='r')
     sns.kdeplot(green_list, color='g')
     sns.kdeplot(blue_list, color='b')
+    plt.show()
+
+    plt.figure(2)
+    sns.kdeplot(red1_list, color='r')
+    sns.kdeplot(green1_list, color='g')
+    sns.kdeplot(blue1_list, color='b')
     plt.show()
 
     print('debug stop')
@@ -64,4 +81,4 @@ def channel_histogram(image_list):
 if __name__ == "__main__": 
     image_list = glob.glob('data/images/*')
     mean, std = calculate_mean_std(image_list)
-    channel_histogram(image_list[:2])
+    channel_histogram(image_list)
